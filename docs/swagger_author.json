@@ -1,0 +1,156 @@
+{
+    "swagger":"2.0",
+    "info": {
+      "title":"Book API",
+      "version":"1.0"
+    },
+    "basePath": "/",
+    "paths": {
+        "/api/authors/{author_id}": {
+            "get": {
+                "tags": ["Author"],
+                "summary": "Эндпоинт для получения всех книг автора по id",
+                "description": "Get all books by author by id",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "author_id",
+                        "in": "path",
+                        "description": "ID of the author to retrieve books for",
+                        "type": "integer",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of books written by the author",
+                        "schema":{
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Book"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Author not found",
+                        "schema":{
+                            "type":"object",
+                            "properties": {
+                                "message":{
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }      
+                }
+            },
+            "delete": {
+                "tags": ["Author"],
+                "summary": "Эндпоинт для удаления автора по id",
+                "description": "Delete author by id",
+                "parameters": [
+                    {
+                        "name": "author_id",
+                        "in": "path",
+                        "description": "ID of the author to retrieve books for",
+                        "type": "integer",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The author has been successfully deleted",
+                        "schema": {
+                            "type":"object",
+                            "properties": {
+                                "message":{
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "The author has been successfully deleted",
+                        "schema": {
+                            "type":"object",
+                            "properties": {
+                                "message":{
+                                    "type": "string"
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        },
+        "/api/authors/":{
+            "post": {
+                "tags": ["Author"],
+                "summary": "Эндпоинт для создания автора",
+                "description": "Creations of the author",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "author",
+                        "description": "New author parameters",
+                        "required": true,
+                        "schema": {
+
+                            "$ref": "#/definitions/Author"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The author has been successfully created",
+                        "schema":{
+                            "$ref": "#/definitions/Author"
+                        }
+                    }
+                }
+            }
+            
+        }
+    },
+    "definitions": {
+        "Author": {
+            "type": "object",
+            "properties": {
+                "author_name":{
+                    "items": {
+                        "type":"string"
+                    }
+                },
+                "id": {
+                    "readOnly": true,
+                    "type": "integer",
+                    "format": "int64"
+                  }
+            },
+            "required": ["author_name"]
+        },
+        "Book": {
+            "properties": {
+              "author": {
+                "type": "integer"
+              },
+              "id": {
+                "readOnly": true,
+                "type": "integer"
+              },
+              "title": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "author",
+              "title"
+            ],
+            "type": "object"
+          }
+    }
+}
+  

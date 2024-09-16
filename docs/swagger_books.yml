@@ -1,0 +1,171 @@
+swagger: '2.0'
+info:
+  title: Books API
+  version: '1.0'
+paths:
+  /api/books:
+    get:
+      tags:
+        - books
+      summary: Получение списка книг из БД
+      responses:
+        '200':
+          description: Books data
+          schema:
+            type: array
+            items: 
+              $ref: '#/definitions/Book'
+    post:
+      tags:
+        - books
+      summary: Эндпоинт для создания книги.
+      description: ''
+      parameters:
+      - in: body
+        name: New book params
+        required: true
+        schema:
+          $ref: '#/definitions/Book'
+      responses:
+        '201':
+          description: The book has been created
+          schema:
+            $ref: '#/definitions/Book'
+        '400':
+          description: Invalid input
+          schema:
+            type: object
+            properties: 
+              message:
+                type: string
+  /api/books/{book_id}:
+    get:
+      tags:
+        - BookEdit
+      summary: Эндпоинт для получения книги по id.
+      description: Getting a book by id.
+      parameters:
+      - in: path
+        type: integer
+        name: book_id
+        required: true
+        description: ID of the book to update
+      responses:
+        '200':
+          description: OK
+    put:
+      tags:
+        - BookEdit
+      summary: Эндпоинт для полного изменения книги по id.
+      description: Book object that needs to be updated
+      parameters:
+        - in: path
+          type: integer
+          description: ID of the book to update
+          name: book_id
+          required: true
+        - in: body
+          name: book
+          description: Book object that needs to be updated
+          required: true
+          schema:
+            $ref: '#/definitions/BookEdit'
+      responses:
+        '200':
+          description: The book has been updated
+          schema:
+            $ref: '#/definitions/Book'
+        '400':
+          description: Invalid input
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+        '404':
+          description: Book not found
+          schema:
+            type: object
+            properties: 
+              message:
+                type: string
+    patch:
+      tags:
+        - BookEdit
+      summary: Эндпоинт для изменения поля в книги по id.
+      description: Object for changing one or more fields of a book
+      parameters:
+        - in: path
+          type: integer
+          description: ID of the book to update
+          name: book_id
+          required: true
+        - in: body
+          name: book
+          description: Book object that needs to be updated
+          required: true
+          schema:
+            type: object
+      responses:
+        '200':
+          description: The book has been updated
+          schema:
+            type: object
+        '400':
+          description: Book not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+    delete:
+      tags:
+        - BookEdit
+      summary: Эндпоинт для удаления книги по id
+      description: Deleting a book by id
+      parameters:
+          - in: path
+            type: integer
+            description: ID of the book to delete
+            name: book_id
+            required: true
+      responses:
+        '200':
+          description: The book has been successfully deleted
+          schema:
+            type: object
+        '400':
+          description: Invalid input or book not found
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+definitions:
+  Book:
+    properties:
+      author:
+        type: integer
+      id:
+        readOnly: true
+        type: integer
+      title:
+        type: string
+    required:
+    - author
+    - title
+    type: object
+  BookEdit:
+    properties:
+      author:
+        type: integer
+      id:
+        type: integer
+      title:
+        type: string
+    required:
+    - author
+    - id
+    - title
+    type: object
+    
