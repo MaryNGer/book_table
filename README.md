@@ -85,6 +85,5 @@ DELETE http://localhost:5000/books/1
 
 Если у вас есть вопросы или предложения, свяжитесь со мной:
 
-- Email: ваш-email@example.com
 - Telegram: [Your_4_Mind](https://t.me/Your_4_Mind)
 
